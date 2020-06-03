@@ -1,0 +1,9 @@
+
+Main loads
+Game loads
+Media loads
+all Sprites  and assigns them names for O(1) reference thru hasmhap
+Game spawns Vehicle
+which extends GameObj
+which has a Representation
+which consists of Sprites that it gets from Media
