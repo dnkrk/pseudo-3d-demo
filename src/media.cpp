@@ -1,32 +1,48 @@
 #include "media.hpp"
+#include "texture.hpp"
 #include "log.hpp"
+
 #include <iostream>
 #include <map>
 
 
-Media::Media() {
+Media::Media(SDL_Renderer* renderer)
+{
+    m_renderer = renderer;
+    m_spritesheet = NULL;
 };
 
-bool Media::load_assets(SDL_Surface* screen_surface) {
-    // Load the sprite atlas
-    //std::string filepath = "sprites.bmp";
 
-    const int NUM_SPRITES = 16;  // TODO change to spritesheet
-    for (int i=1; i <= NUM_SPRITES; ++i){
-        std::string filepath = "sprites/" + std::to_string(i) + ".bmp";
-        SDL_Surface* raw_image = SDL_LoadBMP(filepath.c_str());
-        SDL_Surface* optimized_image = SDL_ConvertSurface(raw_image, screen_surface->format, 0);
-        SDL_FreeSurface(raw_image);
-        if (optimized_image == NULL){
-            Log::error("Unable to load or optimize image");
-            Log::error(filepath);
-        }
-        sprites[i] = optimized_image;
+Media::~Media()
+{
+    //spritesheet->free();
+};
+
+
+bool Media::load_assets()
+{
+    bool success = true;
+
+    Texture* spritesheet = new Texture(m_renderer);
+
+    // TODO get this image into the binary during compiling somehow
+    if ( !spritesheet->load_from_file("src/sprites.png") )
+    {
+        Log::error("Failed to load the sprite atlas.");
+        delete spritesheet;
+        success = false;
+    } 
+    else 
+    {
+        m_spritesheet = spritesheet;
     }
-
+    return true;
 }
 
-SDL_Surface* Media::get_sprite(int i) {
+
+Texture* Media::get_sprite(int i)
+{
     // TODO error checking
-    return this->sprites[i];
+    // TODO i does nothing atm
+    return m_spritesheet;
 }

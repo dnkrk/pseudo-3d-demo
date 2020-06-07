@@ -1,14 +1,16 @@
-#ifndef MODEL_H_DEFINED
-#define MODEL_H_DEFINED
+#ifndef MODEL_H
+#define MODEL_H
+
 #include "sdl.hpp"
 #include <iostream>
 
-class Model {
+class Model
+{
     public:
         Model();
 
     private:
-        SDL_Surface* sprites[256];
+        SDL_Texture* sprites[256];
 };
 
-#endif /* MODEL_H_DEFINED */
+#endif /* MODEL_H */

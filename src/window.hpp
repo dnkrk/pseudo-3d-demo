@@ -1,19 +1,23 @@
-#ifndef WINDOW_H_DEFINED
-#define WINDOW_H_DEFINED
+#ifndef WINDOW_H
+#define WINDOW_H
 #include "sdl.hpp"
 #include <iostream>
 
-class Window {
+class Window
+{
     public:
         Window (const int width, const int height, const std::string& title);
-        bool blit(SDL_Surface* surface, const int x, const int y, const double scale);
+
         bool destroy();
-        bool render();
-        SDL_Surface* get_screen_surface();
+        bool blit(SDL_Surface* surface, const int x, const int y, const double scale);
+
+        void render();
+        void clear();
+        SDL_Renderer* get_renderer();
+
     private:
-        SDL_Window* sdl_window;
-        SDL_Surface* screen_surface;
+        SDL_Window *sdl_window;
+        SDL_Renderer* w_renderer;
 };
 
-#endif /* WINDOW_H_DEFINED */
-
+#endif /* WINDOW_H */

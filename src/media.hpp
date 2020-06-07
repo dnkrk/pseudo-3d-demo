@@ -1,20 +1,28 @@
-#ifndef MEDIA_H_DEFINED
-#define MEDIA_H_DEFINED
+#ifndef MEDIA_H
+#define MEDIA_H
 
 #include "sdl.hpp"
-#include "sprite.hpp"
+#include "texture.hpp"
+
 #include <iostream>
 #include <map>
 
 
-class Media {
+class Media
+{
     public:
-        Media();
-        SDL_Surface* get_sprite(int i);
-        bool load_assets(SDL_Surface* screen_surface);
+        Media(SDL_Renderer* renderer);
+        ~Media();
+
+        //Texture* get_sprite(int i);
+        //bool load_assets(SDL_Renderer* renderer);
+        bool load_assets();
+
+        Texture* get_sprite(int i);
 
     private:
-        SDL_Surface* sprites[256];
+        Texture* m_spritesheet;
+        SDL_Renderer* m_renderer;
 };
 
-#endif /* MEDIA_H_DEFINED */
+#endif /* MEDIA_H */

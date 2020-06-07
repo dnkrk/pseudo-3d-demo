@@ -1,32 +1,29 @@
 #include "game.hpp"
-#include "log.hpp"
-#include "media.hpp"
-//TODO debug :
-#include "sdl.hpp"
 
-Game::Game(Window* window){
-    this->media = new Media();
-    this->media->load_assets(window->get_screen_surface());
-    this->window = window;
+// constructor
+Game::Game(Window* window)
+{
+    g_window = window;
+    g_media = new Media(g_window->get_renderer());
+    g_media->load_assets();
+
+    g_world = new World();
 }
 
-Game::~Game() {
-    delete this->media;
+// destructor
+Game::~Game()
+{
+    delete g_media;
+    delete g_world;
 }
 
-bool Game::start(){
+// runs the main game loop
+void Game::start()
+{
     bool quit = false;
     SDL_Event e;
 
     while (!quit){
-        // test
-        SDL_Surface* s = this->media->get_sprite(5);
-        if (s == NULL){
-            Log::error("can't get sprite out of media");
-            }
-        window->blit(s, 10, 10, 1.0);
-        window->render();
-        // end test
         while (SDL_PollEvent(&e) != 0) {
             if (e.type == SDL_QUIT) {
                 quit = true;
@@ -47,8 +44,11 @@ bool Game::start(){
                 }
             }
         }
+
+        g_window->clear();
+        Texture* s = g_media->get_sprite(0);
+        s->render_clip(0, 0, 1, 5.0);
+        g_window->render();
+
     }
-    return true;
 }
-
-

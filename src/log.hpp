@@ -1,18 +1,21 @@
-#ifndef LOG_H_DEFINED
-#define LOG_H_DEFINED
+#ifndef LOG_H
+#define LOG_H
 
 #include <iostream>
 #include <string>
 
-class Log {
+class Log
+{
     public:
         static void error(std::string msg);
         static void debug(std::string msg);
+        static void debug(int msg);
+
     private:
         static bool is_verbose;
         static bool is_debug;
 };
 
 
-#endif /* LOG_H_DEFINED */
+#endif /* LOG_H */
 

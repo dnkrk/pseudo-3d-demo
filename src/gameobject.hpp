@@ -1,25 +1,21 @@
-#ifndef GAMEOBJECT_H_DEFINED
-#define GAMEOBJECT_H_DEFINED
+#ifndef GAMEOBJECT_H
+#define GAMEOBJECT_H
 
-class GameObject {
+class GameObject
+{
+    double x, y, altitude;
+
     public:
         GameObject();
-    private:
-        // Location
-        double x;
-        double y;
-        double altitude;
 
         // Movement
         double heading;
-        double vertical_speed;
-        double vertical_accel;
-        double horizontal_speed;
-        double horizontal_accel;
+        double vertical_speed, vertical_accel;
+        double horizontal_speed, horizontal_accel;
 
-        // State
-        int max_health;  // -1 for indestructible objects
-        int current_health;
+        ~GameObject() {}
+
+    private:
 };
 
-#endif /* GAMEOBJECT_H_DEFINED */
+#endif /* GAMEOBJECT_H */
