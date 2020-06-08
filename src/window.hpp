@@ -12,12 +12,13 @@ class Window
         bool blit(SDL_Surface* surface, const int x, const int y, const double scale);
 
         void render();
+        void load_from_rendered_text(std::string texture_text, SDL_Color color);
         void clear();
         SDL_Renderer* get_renderer();
 
     private:
         SDL_Window *sdl_window;
-        SDL_Renderer* w_renderer;
+        SDL_Renderer* renderer;
 };
 
 #endif /* WINDOW_H */

@@ -1,6 +1,6 @@
 OBJS = src/*.cpp
 CC = g++
-LINKER_FLAGS = -lSDL2 -lSDL2_image
+LINKER_FLAGS = -lSDL2 -lSDL2_image -lSDL2_ttf
 OBJ_NAME = demo
 
 all : $(OBJS)

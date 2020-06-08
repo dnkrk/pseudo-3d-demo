@@ -35,12 +35,18 @@ Window::Window(const int width, const int height, const std::string& title)
                 Log::error(SDL_GetError());
                 failed = true;
             }
+
+            if (TTF_Init() == -1) {
+                Log::error("Could not initialize SDL_TTF");
+                Log::error(TTF_GetError());
+                failed = true;
+            }
         }
     }
     
 
     if (!failed) {
-        w_renderer = new_renderer;
+        this->renderer = new_renderer;
     } else {
         //TODO handle failure either here or by checking renderer in caller
     }
@@ -50,11 +56,12 @@ Window::Window(const int width, const int height, const std::string& title)
 
 bool Window::destroy()
 {
-    SDL_DestroyRenderer(w_renderer);
+    SDL_DestroyRenderer(this->renderer);
     SDL_DestroyWindow(sdl_window);
     sdl_window = NULL;
-    w_renderer = NULL;
+    this->renderer = NULL;
     IMG_Quit();
+    TTF_Quit();
     SDL_Quit();
     return true;
 }
@@ -73,19 +80,19 @@ bool Window::blit(SDL_Surface* surface, const int x, const int y, const double s
 
 void Window::render()
 {
-    SDL_RenderPresent(w_renderer);
+    SDL_RenderPresent(this->renderer);
 }
 
 
 void Window::clear()
 {
     //SDL_SetRenderDrawColor(w_renderer, 0, 0, 0, 0);
-    SDL_SetRenderDrawColor(w_renderer, 45, 69, 36, 0);
-    SDL_RenderClear(w_renderer);
+    SDL_SetRenderDrawColor(this->renderer, 45, 69, 36, 0);
+    SDL_RenderClear(this->renderer);
 }
 
 
 SDL_Renderer* Window::get_renderer()
 {
-    return w_renderer;
+    return this->renderer;
 }
