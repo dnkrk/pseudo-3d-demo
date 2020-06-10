@@ -1,7 +1,7 @@
 #include "game.hpp"
 
 // constructor
-Game::Game(Window* window, bool debug_mode)
+Game::Game(Window* window, int screen_ticks_per_frame, bool debug_mode)
 {
     this->debug_mode = debug_mode;
 
@@ -11,7 +11,7 @@ Game::Game(Window* window, bool debug_mode)
     this->player = new Player();
     this->world = new World(this->player, this->media);
 
-
+    this->ticks_per_frame = screen_ticks_per_frame;
 }
 
 // destructor
@@ -26,42 +26,39 @@ Game::~Game()
 void Game::start()
 {
     bool quit = false;
-    Uint32 start_time = 0;
-
     SDL_Event e;
 
     while (!quit){
         while (SDL_PollEvent(&e) != 0) {
             if (e.type == SDL_QUIT) {
                 quit = true;
-            } else if (e.type == SDL_KEYDOWN) {
-                switch (e.key.keysym.sym) {
-                case SDLK_w:
-                    this->player->go('f');
-                    break;
-                case SDLK_a:
-                    this->player->go('l');
-                    break;
-                case SDLK_s:
-                    this->player->go('b');
-                    break;
-                case SDLK_d:
-                    this->player->go('r');
-                    break;
-                /*==== DEBUG OPTIONS =====*/
-                case SDLK_r:
-                    Log::debug("Resetting clock");
-                    start_time = SDL_GetTicks();
-                    break;
-                /*== END DEBUG OPTIONS ===*/
-                }
             }
+
         }
 
+        const Uint8* current_key_state = SDL_GetKeyboardState(NULL);
+        if (current_key_state[SDL_SCANCODE_W])
+        {
+            this->player->go('f');
+        }
+        else if (current_key_state[SDL_SCANCODE_S])
+        {
+            this->player->go('b');
+        }
+
+        if (current_key_state[SDL_SCANCODE_A])
+        {
+            this->player->go('l');
+        }
+        else if (current_key_state[SDL_SCANCODE_D])
+        {
+            this->player->go('r');
+        }
+
+
         this->window->clear();
-        this->world->rotate_truck(1);
+        this->world->update();
         this->world->render();
         this->window->render();
-
     }
 }

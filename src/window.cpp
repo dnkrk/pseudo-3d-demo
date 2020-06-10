@@ -21,7 +21,7 @@ Window::Window(const int width, const int height, const std::string& title)
         failed = true;
     } else {
         //screen_surface = SDL_GetWindowSurface(sdl_window);
-        new_renderer = SDL_CreateRenderer(sdl_window, -1, SDL_RENDERER_ACCELERATED);
+        new_renderer = SDL_CreateRenderer(sdl_window, -1, SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC);
         if (new_renderer == NULL) {
             Log::error("Could not create renderer");
             Log::error(SDL_GetError());
@@ -95,4 +95,10 @@ void Window::clear()
 SDL_Renderer* Window::get_renderer()
 {
     return this->renderer;
+}
+
+
+void Window::render_text(const std::string& text)
+{
+
 }

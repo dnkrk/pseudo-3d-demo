@@ -12,8 +12,8 @@ class Window
         bool blit(SDL_Surface* surface, const int x, const int y, const double scale);
 
         void render();
-        void load_from_rendered_text(std::string texture_text, SDL_Color color);
         void clear();
+        void render_text(const std::string& text);
         SDL_Renderer* get_renderer();
 
     private:

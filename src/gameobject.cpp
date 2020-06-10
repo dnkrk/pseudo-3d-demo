@@ -10,9 +10,10 @@ void GameObject::render(Media* media)
     int screen_x = this->x;
     int screen_y = this->y;
     int screen_rotation = this->heading;
-    for (int i=0; i <= this->layers.size(); ++i)
+    media->render_at(screen_x, screen_y, this->shadow_sprite, this->scale, screen_rotation);
+    for (int i=0; i <= this->layers[this->current_model].size(); ++i)
     {
-        media->render_at(screen_x, screen_y - i*this->scale, this->layers[i],
+        media->render_at(screen_x, screen_y - i*this->scale, this->layers[this->current_model][i],
                 this->scale, screen_rotation);
     }
 }

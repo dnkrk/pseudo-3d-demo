@@ -5,6 +5,7 @@
 #include "truck.hpp"
 #include "player.hpp"
 #include <iostream>
+#include <algorithm>
 #include <vector>
 
 class World {
@@ -13,9 +14,7 @@ class World {
         ~World();
 
         void render();
-
-        //TODO debug method plz remove
-        void rotate_truck(double degrees);
+        void update();
 
     private:
         Player* player;

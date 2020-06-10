@@ -6,12 +6,14 @@
 #include "player.hpp"
 #include "log.hpp"
 #include "media.hpp"
+#include "timer.hpp"
 #include "sdl.hpp"
+#include <sstream>
 
 class Game
 {
     public:
-        Game(Window* window, bool debug_mode=false);
+        Game(Window* window, int ticks_per_frame, bool debug_mode=false);
         ~Game();
 
         void start();                       // Runs the game
@@ -19,6 +21,7 @@ class Game
 
     private:
         bool debug_mode;
+        int ticks_per_frame;
 
         Game(const Game& a);                // copy constructor, non-copyable
         Game& operator=(const Game& a);     // copy assignment, non-copyable

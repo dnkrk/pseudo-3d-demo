@@ -3,9 +3,19 @@
 #include "log.hpp"
 #include "window.hpp"
 
-// TODO change to config.ini
-const int SCREEN_WIDTH = 640;
-const int SCREEN_HEIGHT = 480;
+/*
+ * TODO BUGS
+ * Occasionally vehicle refuses to reverse when rapidly moving back and forth
+ * Framerate still miscalculated, can't cap manually
+ * guaranteed segfault on exiting game
+ * turn limit not working, turning is just binary
+ * Displaying over ~16 layers in a single model starts showing visual glitches
+ * change to config.ini
+ *
+ */
+
+const int SCREEN_WIDTH = 1280;
+const int SCREEN_HEIGHT = 960;
 const int SCREEN_FPS = 60;
 const int TICKS_PER_FRAME = 1000/SCREEN_FPS;
 const bool DEBUG_MODE = true;
@@ -24,7 +34,7 @@ int main(int argc, char* args[]) {
 
     Window window(width, height, "Demo");
 
-    Game game(&window, debug);
+    Game game(&window, debug, TICKS_PER_FRAME);
     game.start();
 
     window.destroy();
