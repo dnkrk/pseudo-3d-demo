@@ -29,22 +29,17 @@ void Vehicle::brake()
     {
         this->braking = true;
         this->horizontal_speed -= this->braking_force;
+        if (this->horizontal_speed < 0) { this->horizontal_speed = 0; }
     }
-    else
+    else if (this->horizontal_speed > -0.2*this->max_speed)
     {
-        // Accelerate backwards
-        if (this->horizontal_speed > -0.2*this->max_speed)
-        {
-            this->horizontal_accel = -0.5*this->acceleration_force;
-        }
+        this->horizontal_accel = -0.5*this->acceleration_force;
     }
 }
 
 
 void Vehicle::update()
 {
-
-
     // Update horizontal speed
     if (this->horizontal_accel != 0)
     {
@@ -70,12 +65,13 @@ void Vehicle::update()
             this->horizontal_speed += this->coast_decay_rate*2;
         }
         // Reduce speed jitter
-        if (std::abs(this->horizontal_speed) < 0.001)
+        if (std::abs(this->horizontal_speed) < 0.005)
         {
             this->horizontal_speed = 0;
             this->braking = true;
         }
     }
+
 
     // Update heading
     double turn_factor = std::abs(this->turn_angle*(this->horizontal_speed/this->max_speed*6));
