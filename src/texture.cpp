@@ -91,35 +91,7 @@ void Texture::render(int x, int y, SDL_Rect* clip, double scale, double rotation
     if (this->renderer == NULL) {
         Log::error("Attempted to render texture with unset renderer");
     } else {
-        SDL_RenderCopyEx(this->renderer, this->texture, clip, &render_quad, rotation, center, flip);
+        SDL_RenderCopyEx(this->renderer, this->texture, clip, &render_quad,
+                rotation, center, flip);
     }
-}
-
-
-bool Texture::load_from_rendered_text(std::string texture_text, SDL_Color color)
-{
-    this->free();
-    TTF_Font* font = nullptr;
-    SDL_Surface* text_surface = TTF_RenderText_Solid(font, texture_text.c_str(), color);
-    if (text_surface == nullptr)
-    {
-        Log::error("Unable to render text surface.");
-        Log::error(TTF_GetError());
-    }
-    else
-    {
-        this->texture = SDL_CreateTextureFromSurface(this->renderer, text_surface);
-        if (this->texture == nullptr) {
-            Log::error("Cannot convert texture from rendered text");
-            Log::error(SDL_GetError());
-        }
-        else
-        {
-            this->width = text_surface->w;
-            this->height = text_surface->h;
-        }
-
-        SDL_FreeSurface(text_surface);
-    }
-    return (this->texture != nullptr);
 }

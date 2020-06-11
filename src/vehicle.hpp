@@ -2,10 +2,10 @@
 #define VEHICLE_H
 
 #include <math.h>
-#include "gameobject.hpp"
+#include "mobileobject.hpp"
 #include "log.hpp"
 
-class Vehicle:public GameObject
+class Vehicle:public MobileObject
 {
     public:
         virtual ~Vehicle() {}

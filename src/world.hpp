@@ -3,6 +3,7 @@
 
 #include "sdl.hpp"
 #include "truck.hpp"
+#include "terrain.hpp"
 #include "player.hpp"
 #include <iostream>
 #include <algorithm>

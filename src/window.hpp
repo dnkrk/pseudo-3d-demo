@@ -6,10 +6,11 @@
 class Window
 {
     public:
-        Window (const int width, const int height, const std::string& title);
+        Window (const int width, const int height, const int scale, const std::string& title);
+        ~Window();
 
-        bool destroy();
         bool blit(SDL_Surface* surface, const int x, const int y, const double scale);
+        void generate_pattern(int x, int y);
 
         void render();
         void clear();
@@ -19,6 +20,8 @@ class Window
     private:
         SDL_Window *sdl_window;
         SDL_Renderer* renderer;
+        SDL_Texture* target_texture;
+        int scale;
 };
 
 #endif /* WINDOW_H */

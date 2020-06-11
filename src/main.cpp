@@ -3,19 +3,9 @@
 #include "log.hpp"
 #include "window.hpp"
 
-/*
- * TODO BUGS
- * Occasionally vehicle refuses to reverse when rapidly moving back and forth
- * Framerate still miscalculated, can't cap manually
- * guaranteed segfault on exiting game
- * turn limit not working, turning is just binary
- * Displaying over ~16 layers in a single model starts showing visual glitches
- * change to config.ini
- *
- */
-
 const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 960;
+const int SCALE = 5;
 const int SCREEN_FPS = 60;
 const int TICKS_PER_FRAME = 1000/SCREEN_FPS;
 const bool DEBUG_MODE = true;
@@ -32,12 +22,11 @@ int main(int argc, char* args[]) {
     int height = SCREEN_HEIGHT;
     bool debug = DEBUG_MODE;
 
-    Window window(width, height, "Demo");
+    Window window(width, height, SCALE, "Demo");
 
-    Game game(&window, debug, TICKS_PER_FRAME);
+    Game game(&window, TICKS_PER_FRAME, debug);
     game.start();
 
-    window.destroy();
     SDL::exit();
     return 0;
 }

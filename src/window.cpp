@@ -1,8 +1,10 @@
 #include "window.hpp"
 #include "log.hpp"
 
-Window::Window(const int width, const int height, const std::string& title)
+Window::Window(const int width, const int height, const int scale, const std::string& title)
 {
+
+    this->scale = scale;
 
     sdl_window = NULL;
     bool failed = false;
@@ -21,7 +23,7 @@ Window::Window(const int width, const int height, const std::string& title)
         failed = true;
     } else {
         //screen_surface = SDL_GetWindowSurface(sdl_window);
-        new_renderer = SDL_CreateRenderer(sdl_window, -1, SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC);
+        new_renderer = SDL_CreateRenderer(sdl_window, -1, SDL_RENDERER_ACCELERATED|SDL_RENDERER_TARGETTEXTURE);
         if (new_renderer == NULL) {
             Log::error("Could not create renderer");
             Log::error(SDL_GetError());
@@ -45,8 +47,16 @@ Window::Window(const int width, const int height, const std::string& title)
     }
     
 
+    // Window texture
+    SDL_Texture* new_texture = SDL_CreateTexture(new_renderer,
+            SDL_PIXELFORMAT_RGBA8888,
+            SDL_TEXTUREACCESS_TARGET, 
+            width*scale,
+            height*scale);
+
     if (!failed) {
         this->renderer = new_renderer;
+        this->target_texture = new_texture;
     } else {
         //TODO handle failure either here or by checking renderer in caller
     }
@@ -54,17 +64,23 @@ Window::Window(const int width, const int height, const std::string& title)
 
 }
 
-bool Window::destroy()
+
+Window::~Window()
 {
     SDL_DestroyRenderer(this->renderer);
+
     SDL_DestroyWindow(sdl_window);
-    sdl_window = NULL;
-    this->renderer = NULL;
+    sdl_window = nullptr;
+    this->renderer = nullptr;
+
+    SDL_DestroyTexture(this->target_texture);
+    this->target_texture = nullptr;
+
     IMG_Quit();
     TTF_Quit();
     SDL_Quit();
-    return true;
 }
+
 
 bool Window::blit(SDL_Surface* surface, const int x, const int y, const double scale)
 {

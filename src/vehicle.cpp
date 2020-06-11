@@ -43,6 +43,8 @@ void Vehicle::brake()
 
 void Vehicle::update()
 {
+
+
     // Update horizontal speed
     if (this->horizontal_accel != 0)
     {
@@ -71,6 +73,7 @@ void Vehicle::update()
         if (std::abs(this->horizontal_speed) < 0.001)
         {
             this->horizontal_speed = 0;
+            this->braking = true;
         }
     }
 
@@ -122,4 +125,33 @@ void Vehicle::update()
     // Update appearance
     this->current_model = (this->braking << 1) + (this->horizontal_speed < 0);
     this->braking = false;
+
+    /* Keep truck on screen for the purposes of the demo */
+    bool is_offscreen = false;
+    if (this->x <= -100)
+    {
+        this->x = -100;
+        is_offscreen = true;
+    }
+    else if (this->x >= 1160)
+    {
+        this->x = 1160;
+        is_offscreen = true;
+    }
+    if (this->y <= -50)
+    {
+        this->y = -50;
+        is_offscreen = true;
+    }
+    else if (this->y >= 960)
+    {
+        this->y = 960;
+        is_offscreen = true;
+    }
+    if (is_offscreen)
+    {
+        this->horizontal_accel = 0;
+        this->horizontal_speed = 0;
+    }
+    /* end keep truck on screen */
 }

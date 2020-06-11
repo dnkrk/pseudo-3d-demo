@@ -26,6 +26,7 @@ Truck::Truck()
 
     // Visual model
     this->current_model = 0;
+    this->shadow_sprite = 0;
     this->layers = {
         {1, 2, 11, 3, 15, 4, 4, 5, 5, 4, 6, 6, 6, 6, 7, 8, 8, 9},
         {1, 2, 10, 3, 15, 4, 4, 5, 5, 4, 6, 6, 6, 6, 7, 8, 8, 9},
